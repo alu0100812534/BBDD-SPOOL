@@ -1,0 +1,212 @@
+SQL> SELECT A FROM ASIGNATURA WHERE CAR IN (SELECT CAR FROM AREA WHERE AR LIKE 'A%');
+
+A                                                                               
+--------------------------------------------------                              
+ALGEBRA                                                                         
+ANALISIS COMPLEJO                                                               
+ASTRONOMIA                                                                      
+
+SQL> SELECT A FROM ASIGNATURA WHERE CAR IN (SELECT CAR FROM AREA WHERE AR LIKE '%A');
+
+A                                                                               
+--------------------------------------------------                              
+ALGEBRA                                                                         
+ASTRONOMIA                                                                      
+ENSENANZA DE LA MATEMATICA                                                      
+OPTIMIZACION                                                                    
+CALCULO                                                                         
+
+SQL> SELECT A FROM ASIGNATURA WHERE A = '%DATOS%'
+  2  ;
+
+no rows selected
+
+SQL> SELECT A FROM ASIGNATURA WHERE A LIKE '%DATOS%'
+  2  ;
+
+A                                                                               
+--------------------------------------------------                              
+BASES DE DATOS                                                                  
+ALMACENES DE DATOS                                                              
+MINERIA DE DATOS                                                                
+
+SQL> SELECT DNI FROM PROFESOR WHERE P LIKE '__R%'
+  2  ;
+
+       DNI                                                                      
+----------                                                                      
+      2222                                                                      
+      4444                                                                      
+      6666                                                                      
+      7777                                                                      
+
+SQL> SELECT DISTINCT DNI FROM PROFESOR WHERE LEN(P) < 5
+  2  ;
+SELECT DISTINCT DNI FROM PROFESOR WHERE LEN(P) < 5
+                                        *
+ERROR at line 1:
+ORA-00904: "LEN": invalid identifier 
+
+
+SQL> SELECT DISTINCT DNI FROM PROFESOR WHERE LENGTH(P) < 5;
+
+       DNI                                                                      
+----------                                                                      
+      1111                                                                      
+      5555                                                                      
+
+SQL> SELECT DISTINCT DNI FROM PROFESOR WHERE LENGTH(P) <= 5;
+
+       DNI                                                                      
+----------                                                                      
+      1111                                                                      
+      3333                                                                      
+      4444                                                                      
+      5555                                                                      
+      7777                                                                      
+      1010                                                                      
+
+6 rows selected.
+
+SQL> SELECT DISTINCT DNI FROM PROFESOR WHERE LENGTH(P) >= 5;
+
+       DNI                                                                      
+----------                                                                      
+      2222                                                                      
+      3333                                                                      
+      4444                                                                      
+      6666                                                                      
+      7777                                                                      
+      8888                                                                      
+      9999                                                                      
+      1010                                                                      
+      2020                                                                      
+      3030                                                                      
+
+10 rows selected.
+
+SQL> SELECT P FROM PROFESORES WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE WHERE DNI=DNI);
+SELECT P FROM PROFESORES WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE WHERE DNI=DNI)
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT DNI FROM PLAN_DOCENTE;
+
+       DNI                                                                      
+----------                                                                      
+      1010                                                                      
+      1010                                                                      
+      1010                                                                      
+      1111                                                                      
+      1111                                                                      
+      2020                                                                      
+      2222                                                                      
+      2222                                                                      
+      3030                                                                      
+      3333                                                                      
+      3333                                                                      
+
+       DNI                                                                      
+----------                                                                      
+      4444                                                                      
+      4444                                                                      
+      4444                                                                      
+      5555                                                                      
+      6666                                                                      
+      7777                                                                      
+      8888                                                                      
+      9999                                                                      
+
+19 rows selected.
+
+SQL> SELECT P FROM PROFESORES WHERE DNI IN (SELECT DNI' FROM PLAN_DOCENTE WHERE DNI=DNI');
+SELECT P FROM PROFESORES WHERE DNI IN (SELECT DNI' FROM PLAN_DOCENTE WHERE DNI=DNI')
+                                                 *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT P FROM PROFESOR WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE);
+
+P                                                                               
+------------------------------------------------------------                    
+DAVID                                                                           
+JUAN                                                                            
+SOLEDAD                                                                         
+CARLOS                                                                          
+JOSE MANUEL                                                                     
+PEDRO                                                                           
+MARIA                                                                           
+IVAN                                                                            
+CARMEN                                                                          
+MARIO                                                                           
+FRANCISCO                                                                       
+
+P                                                                               
+------------------------------------------------------------                    
+ANGELA                                                                          
+
+12 rows selected.
+
+SQL> SELECT DISTINCT P FROM PROFESOR WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE);
+
+P                                                                               
+------------------------------------------------------------                    
+MARIO                                                                           
+JUAN                                                                            
+PEDRO                                                                           
+FRANCISCO                                                                       
+SOLEDAD                                                                         
+DAVID                                                                           
+CARLOS                                                                          
+IVAN                                                                            
+CARMEN                                                                          
+MARIA                                                                           
+JOSE MANUEL                                                                     
+
+P                                                                               
+------------------------------------------------------------                    
+ANGELA                                                                          
+
+12 rows selected.
+
+SQL> SELECT P FROM PROFESOR WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE);
+
+P                                                                               
+------------------------------------------------------------                    
+DAVID                                                                           
+JUAN                                                                            
+SOLEDAD                                                                         
+CARLOS                                                                          
+JOSE MANUEL                                                                     
+PEDRO                                                                           
+MARIA                                                                           
+IVAN                                                                            
+CARMEN                                                                          
+MARIO                                                                           
+FRANCISCO                                                                       
+
+P                                                                               
+------------------------------------------------------------                    
+ANGELA                                                                          
+
+12 rows selected.
+
+SQL> SELECT P FROM PROFESOR WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE WHERE FF=NULL);
+
+no rows selected
+
+SQL> SELECT P FROM PROFESOR WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE WHERE FF=null);
+
+no rows selected
+
+SQL> SELECT P FROM PROFESOR WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE WHERE FF='NULL');
+SELECT P FROM PROFESOR WHERE DNI IN (SELECT DNI FROM PLAN_DOCENTE WHERE FF='NULL')
+                                                                           *
+ERROR at line 1:
+ORA-01858: a non-numeric character was found where a numeric was expected 
+
+
+SQL> spool off
